@@ -28,3 +28,4 @@ C:\Users\KrypicSage\cloned-repo\Calculator\Calculator\obj\Debug\Calculator.cspro
 C:\Users\KrypicSage\cloned-repo\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
 C:\Users\KrypicSage\cloned-repo\Calculator\Calculator\obj\Debug\Calculator.exe
 C:\Users\KrypicSage\cloned-repo\Calculator\Calculator\obj\Debug\Calculator.pdb
+C:\Users\KrypicSage\cloned-repo\Calculator\Calculator\obj\Debug\App.baml
