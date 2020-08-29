@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Calculator" Height="550" Width="400" Background="#FFBDBDBD">
     <Grid>
-        <Grid Margin="5,169,5,5">
+        <Grid Margin="2,169,2,2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -42,21 +42,23 @@
             <Button Grid.Column="0" Grid.Row="0" FontSize="20">%</Button>
             <Button Grid.Column="0" Grid.Row="1" FontSize="20">1/x</Button>
             <Button Grid.Column="1" Grid.Row="0" FontSize="20">CE</Button>
-            <Button Grid.Column="1" Grid.Row="1" FontSize="20">x^2</Button>
+            <Button Grid.Column="1" Grid.Row="1" FontSize="20">x²</Button>
             <Button Grid.Column="2" Grid.Row="0" FontSize="20">C</Button>
-            <Button Grid.Column="2" Grid.Row="1" FontSize="20">sqrt(x)</Button>
-            <Button Grid.Column="3" Grid.Row="0" FontSize="20">Bkspace</Button>
-            <Button Grid.Column="3" Grid.Row="1" FontSize="20">/</Button>
-            <Button Grid.Column="3" Grid.Row="2" FontSize="20">X</Button>
-            <Button Grid.Column="3" Grid.Row="3" FontSize="20">-</Button>
-            <Button Grid.Column="3" Grid.Row="4" FontSize="20">+</Button>
-            <Button Grid.Column="3" Grid.Row="5" FontSize="20">=</Button>
+            <Button Grid.Column="2" Grid.Row="1" FontSize="20">√x</Button>
+            <Button Grid.Column="3" Grid.Row="0" FontSize="20">🢠</Button>
+            <Button Grid.Column="3" Grid.Row="1" FontSize="35" FontWeight="Light">÷</Button>
+            <Button Grid.Column="3" Grid.Row="2" FontSize="35" FontWeight="Light">×</Button>
+            <Button Grid.Column="3" Grid.Row="3" FontSize="35" FontWeight="Light">−</Button>
+            <Button Grid.Column="3" Grid.Row="4" FontSize="35" FontWeight="Light">+</Button>
+            <Button Grid.Column="3" Grid.Row="5" FontSize="35" FontWeight="Light">=</Button>
 
 
 
 
         </Grid>
         <TextBlock Margin="10,94,10,0" Text="0" VerticalAlignment="Top" TextAlignment="Right" FontSize="48" TextWrapping="Wrap" RenderTransformOrigin="0.503,0.607" Height="70"/>
+        <Button Content="𝄘" BorderThickness="0" Background="#FFBDBDBD" TextBlock.FontSize="25" HorizontalAlignment="Right" Margin="0,10,346,0" VerticalAlignment="Top" Width="36" Height="36" />
+        <TextBlock HorizontalAlignment="Left" Margin="51,14,0,0" TextWrapping="Wrap" Text="Standard" VerticalAlignment="Top" Height="36" Width="90" FontSize="20" FontWeight="Bold" TextAlignment="Center"/>
 
     </Grid>
 
