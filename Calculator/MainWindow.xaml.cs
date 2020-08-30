@@ -20,15 +20,16 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool isOpLastInput = false;
-        float num1 = 0.0f;
+        bool isOpLastInput = false; // is operation last input
+        float num1 = 0.0f; // used as placeholder when user is using multiple operations before equaling
         String operand = "", history = "";
 
         public MainWindow()
         {
             InitializeComponent();
         }
-
+        // Number inputs - first condition is when user wants new number
+        // second condition is for when user is continuing a number
         private void Zero(object sender, RoutedEventArgs e)
         {
             if (screen.Text == "0" || isOpLastInput)
@@ -162,52 +163,83 @@ namespace Calculator
 
         private void Sign(object sender, RoutedEventArgs e)
         {
-
+            screen.Text = (float.Parse(screen.Text) * -1).ToString();
         }
 
         private void Dot(object sender, RoutedEventArgs e)
         {
-
+            if (!screen.Text.Contains("."))
+            {
+                screen.Text += '.';
+            }
         }
 
         private void Percent(object sender, RoutedEventArgs e)
         {
-
+            screen.Text = (float.Parse(screen.Text) / 100).ToString();
         }
 
         private void OneOver(object sender, RoutedEventArgs e)
         {
-
+            historyQuickView.Text += "1/(" + screen.Text + ") = ";
+            screen.Text = (1 / float.Parse(screen.Text)).ToString();
+            history += historyQuickView + " = " + screen.Text;
         }
 
         private void CE(object sender, RoutedEventArgs e)
         {
-
+            screen.Text = "0";
         }
 
         private void Square(object sender, RoutedEventArgs e)
         {
-
+            historyQuickView.Text += screen.Text + "² = ";
+            screen.Text = Math.Pow(float.Parse(screen.Text), 2).ToString();
+            history += historyQuickView + " = " + screen.Text;
         }
 
         private void C(object sender, RoutedEventArgs e)
         {
-
+            screen.Text = "0";
+            historyQuickView.Text = "";
         }
 
         private void Root(object sender, RoutedEventArgs e)
         {
-
+            historyQuickView.Text += "√(" + screen.Text + ") = ";
+            screen.Text = Math.Sqrt(float.Parse(screen.Text)).ToString();
+            history += historyQuickView + " = " + screen.Text;
         }
 
         private void Delete(object sender, RoutedEventArgs e)
         {
-
+            if (screen.Text.Length == 1)
+            {
+                screen.Text = "0";
+            }
+            else
+            {
+                screen.Text = screen.Text.Remove(screen.Text.Length - 1, 1);
+            }
         }
 
         private void Divide(object sender, RoutedEventArgs e)
         {
-
+            operand = "/";
+            isOpLastInput = true;
+            if (num1 == 0.0f)
+            {
+                //condition where screen number is first input
+                historyQuickView.Text = screen.Text + " ÷ ";
+                num1 = float.Parse(screen.Text);
+            }
+            else
+            {
+                //condition where user presses multiple operations before pressing equal
+                historyQuickView.Text += screen.Text + " ÷ ";
+                num1 = num1 / float.Parse(screen.Text);
+                screen.Text = num1.ToString();
+            }
         }
 
         private void Multiply(object sender, RoutedEventArgs e)
@@ -217,11 +249,13 @@ namespace Calculator
             isOpLastInput = true;
             if (num1 == 0.0f)
             {
+                //condition where screen number is first input
                 historyQuickView.Text = screen.Text + " x ";
                 num1 = float.Parse(screen.Text);
             }
             else
             {
+                //condition where user presses multiple operations before pressing equal
                 historyQuickView.Text += screen.Text + " x ";
                 num1 = num1 * float.Parse(screen.Text);
                 screen.Text = num1.ToString();
@@ -230,12 +264,40 @@ namespace Calculator
 
         private void Subtract(object sender, RoutedEventArgs e)
         {
-
+            operand = "-";
+            isOpLastInput = true;
+            if (num1 == 0.0f)
+            {
+                //condition where screen number is first input
+                historyQuickView.Text = screen.Text + " - ";
+                num1 = float.Parse(screen.Text);
+            }
+            else
+            {
+                //condition where user presses multiple operations before pressing equal
+                historyQuickView.Text += screen.Text + " - ";
+                num1 = num1 - float.Parse(screen.Text);
+                screen.Text = num1.ToString();
+            }
         }
 
         private void Add(object sender, RoutedEventArgs e)
         {
-
+            operand = "+";
+            isOpLastInput = true;
+            if (num1 == 0.0f)
+            {
+                //condition where screen number is first input
+                historyQuickView.Text = screen.Text + " + ";
+                num1 = float.Parse(screen.Text);
+            }
+            else
+            {
+                //condition where user presses multiple operations before pressing equal
+                historyQuickView.Text += screen.Text + " + ";
+                num1 = num1 + float.Parse(screen.Text);
+                screen.Text = num1.ToString();
+            }
         }
 
         private void Equals(object sender, RoutedEventArgs e)
@@ -244,7 +306,25 @@ namespace Calculator
             {
                 case "x":
                     historyQuickView.Text += screen.Text + " = ";
-                    screen.Text = (float.Parse(screen.Text) * num1).ToString();
+                    screen.Text = (num1 * float.Parse(screen.Text)).ToString();
+                    history += historyQuickView + " = " + screen.Text;
+                    num1 = 0.0f;
+                    break;
+                case "/":
+                    historyQuickView.Text += screen.Text + " = ";
+                    screen.Text = (num1 / float.Parse(screen.Text)).ToString();
+                    history += historyQuickView + " = " + screen.Text;
+                    num1 = 0.0f;
+                    break;
+                case "+":
+                    historyQuickView.Text += screen.Text + " = ";
+                    screen.Text = (num1 + float.Parse(screen.Text)).ToString();
+                    history += historyQuickView + " = " + screen.Text;
+                    num1 = 0.0f;
+                    break;
+                case "-":
+                    historyQuickView.Text += screen.Text + " = ";
+                    screen.Text = (num1 - float.Parse(screen.Text)).ToString();
                     history += historyQuickView + " = " + screen.Text;
                     num1 = 0.0f;
                     break;

@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
-        Title="Calculator" Height="550" Width="400" Background="AliceBlue">
+        Title="Calculator" Height="550" Width="400" Background="AliceBlue" WindowStartupLocation="CenterScreen">
     <Grid>
 
-        <TextBlock x:Name="screen" Background="Gray" FontWeight="DemiBold"  Margin="10,94,10,0" Text="0" VerticalAlignment="Top" TextAlignment="Right" FontSize="48" TextWrapping="Wrap" RenderTransformOrigin="0.503,0.607" Height="70"/>
+        <TextBlock x:Name="screen" Background="AliceBlue" FontWeight="DemiBold"  Margin="10,94,10,0" Text="0" VerticalAlignment="Top" TextAlignment="Right" FontSize="48" TextWrapping="Wrap" RenderTransformOrigin="0.503,0.607" Height="70"/>
         <Button Content="𝄘" BorderThickness="0" Background="AliceBlue" TextBlock.FontSize="25" HorizontalAlignment="Right" Margin="0,10,346,0" VerticalAlignment="Top" Width="36" Height="36" />
         <TextBlock HorizontalAlignment="Left" Margin="51,14,0,0" TextWrapping="Wrap" Text="Standard" VerticalAlignment="Top" Height="36" Width="90" FontSize="20" FontWeight="Bold" TextAlignment="Center"/>
         <Button Content="⟲" Click="showHistory" BorderThickness="0" Background="AliceBlue" TextBlock.FontSize="25" HorizontalAlignment="Left" Margin="346,10,0,0" VerticalAlignment="Top" Width="36" Height="36"/>
