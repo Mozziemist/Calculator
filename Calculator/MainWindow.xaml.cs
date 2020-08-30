@@ -20,7 +20,9 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        bool isOpLastInput = false;
+        float num1 = 0.0f;
+        String operand = "", history = "";
 
         public MainWindow()
         {
@@ -29,102 +31,133 @@ namespace Calculator
 
         private void Zero(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "0";
+                screen.Text = "0";
+                isOpLastInput = false;
             }
             else
-                result.Text += "0";
+            {
+                screen.Text += "0";
+            }
+            
         }
 
         private void One(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "1";
+                screen.Text = "1";
+                isOpLastInput = false;
             }
             else
-                result.Text += "1";
+            {
+                screen.Text += "1";
+            }
         }
 
         private void Two(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "2";
+                screen.Text = "2";
+                isOpLastInput = false;
             }
             else
-                result.Text += "2";
+            {
+                screen.Text += "2";
+            }
         }
 
         private void Three(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "3";
+                screen.Text = "3";
+                isOpLastInput = false;
             }
             else
-                result.Text += "3";
+            {
+                screen.Text += "3";
+            }
         }
 
         private void Four(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "4";
+                screen.Text = "4";
+                isOpLastInput = false;
             }
             else
-                result.Text += "4";
+            {
+                screen.Text += "4";
+            }
         }
 
         private void Five(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "5";
+                screen.Text = "5";
+                isOpLastInput = false;
             }
             else
-                result.Text += "5";
+            {
+                screen.Text += "5";
+            }
         }
 
         private void Six(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "6";
+                screen.Text = "6";
+                isOpLastInput = false;
             }
             else
-                result.Text += "6";
+            {
+                screen.Text += "6";
+            }
         }
 
         private void Seven(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "7";
+                screen.Text = "7";
+                isOpLastInput = false;
             }
             else
-                result.Text += "7";
+            {
+                screen.Text += "7";
+            }
         }
 
         private void Eight(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "8";
+                screen.Text = "8";
+                isOpLastInput = false;
             }
             else
-                result.Text += "8";
+            {
+                screen.Text += "8";
+            }
         }
 
         private void Nine(object sender, RoutedEventArgs e)
         {
-            if (result.Text.Equals("0"))
+            if (screen.Text == "0" || isOpLastInput)
             {
-                result.Text = "9";
+                screen.Text = "9";
+                isOpLastInput = false;
             }
             else
-                result.Text += "9";
+            {
+                screen.Text += "9";
+            }
         }
 
         private void Sign(object sender, RoutedEventArgs e)
@@ -180,7 +213,19 @@ namespace Calculator
         private void Multiply(object sender, RoutedEventArgs e)
         {
             
-            
+            operand = "x";
+            isOpLastInput = true;
+            if (num1 == 0.0f)
+            {
+                historyQuickView.Text = screen.Text + " x ";
+                num1 = float.Parse(screen.Text);
+            }
+            else
+            {
+                historyQuickView.Text += screen.Text + " x ";
+                num1 = num1 * float.Parse(screen.Text);
+                screen.Text = num1.ToString();
+            }
         }
 
         private void Subtract(object sender, RoutedEventArgs e)
@@ -195,7 +240,23 @@ namespace Calculator
 
         private void Equals(object sender, RoutedEventArgs e)
         {
-            
+            switch (operand)
+            {
+                case "x":
+                    historyQuickView.Text += screen.Text + " = ";
+                    screen.Text = (float.Parse(screen.Text) * num1).ToString();
+                    history += historyQuickView + " = " + screen.Text;
+                    num1 = 0.0f;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        private void showHistory(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
