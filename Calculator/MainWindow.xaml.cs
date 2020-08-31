@@ -336,7 +336,7 @@ namespace Calculator
 
         private void showHistory(object sender, RoutedEventArgs e)
         {
-
+            
         }
     }
 }
