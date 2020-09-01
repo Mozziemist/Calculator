@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
-        Title="Calculator" Height="550" Width="400" Background="AliceBlue" WindowStartupLocation="CenterScreen">
+        Title="Calculator" x:Name="calcWindow" Height="550" Width="400" Background="AliceBlue" WindowStartupLocation="CenterScreen">
     <Grid>
 
-        <Menu Background="AliceBlue" HorizontalAlignment="Left" Height="33" Margin="10,10,0,0" VerticalAlignment="Top" Width="31" >
+        <Menu x:Name="menu" Background="AliceBlue" HorizontalAlignment="Left" Height="33" Margin="10,10,0,0" VerticalAlignment="Top" Width="31" >
             <MenuItem Header="𝄘" FontSize="25" Height="33" Width="31">
-                <MenuItem Header="Standard"/>
-                <MenuItem Header="Scientific"/>
-                <MenuItem Header="Programmer"/>
+                <MenuItem Background="LightBlue" Header="Standard"/>
+                <MenuItem Background="LightBlue" Header="Scientific"/>
+                <MenuItem Background="LightBlue" Header="Programmer"/>
             </MenuItem>
         </Menu>
         <Button x:Name="historyBtn" Content="⟲" Click="showHistory" BorderThickness="0" Background="AliceBlue" TextBlock.FontSize="25" HorizontalAlignment="Left" Margin="346,10,0,0" VerticalAlignment="Top" Width="36" Height="36"/>
@@ -66,7 +66,10 @@
             <Button Style="{DynamicResource RoundCorner2}" Grid.Column="3" Grid.Row="4" FontSize="35" FontWeight="Light" Click="Add">+</Button>
             <Button Style="{DynamicResource RoundCorner2}" Grid.Column="3" Grid.Row="5" FontSize="35" FontWeight="Light" Click="Equals">=</Button>
 
-
+            <Canvas x:Name="historyCanvas" Background="LightGray" Grid.ColumnSpan="4" Grid.RowSpan="6" Visibility="Hidden" >
+                <TextBlock x:Name="historyTextBlock" Grid.ColumnSpan="4" Grid.RowSpan="6" Background="LightGray" TextAlignment="Right" FontSize="25" Height="338" Width="363" />
+            </Canvas>
+            
 
 
         </Grid>

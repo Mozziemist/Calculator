@@ -200,15 +200,19 @@ namespace Calculator
 
         private void C(object sender, RoutedEventArgs e)
         {
+            num1 = 0.0f;
             screen.Text = "0";
             historyQuickView.Text = "";
         }
 
         private void Root(object sender, RoutedEventArgs e)
         {
-            historyQuickView.Text += "√(" + screen.Text + ") = ";
+            historyQuickView.Text += "√(" + screen.Text + ")";
+            if (num1 == 0.0f)
+            {
+                historyQuickView.Text += "=";
+            }
             screen.Text = Math.Sqrt(float.Parse(screen.Text)).ToString();
-            history += historyQuickView + " = " + screen.Text;
         }
 
         private void Delete(object sender, RoutedEventArgs e)
@@ -305,27 +309,33 @@ namespace Calculator
             switch (operand)
             {
                 case "x":
-                    historyQuickView.Text += screen.Text + " = ";
+                    if (historyQuickView.Text[historyQuickView.Text.Length - 1] != ')')
+                    {
+                        historyQuickView.Text += screen.Text + " = ";
+                    }
+                    else
+                        historyQuickView.Text += "=";
+
                     screen.Text = (num1 * float.Parse(screen.Text)).ToString();
-                    history += historyQuickView + " = " + screen.Text;
+                    history += historyQuickView.Text + screen.Text + '\n';
                     num1 = 0.0f;
                     break;
                 case "/":
                     historyQuickView.Text += screen.Text + " = ";
                     screen.Text = (num1 / float.Parse(screen.Text)).ToString();
-                    history += historyQuickView + " = " + screen.Text;
+                    history += historyQuickView.Text + screen.Text + '\n';
                     num1 = 0.0f;
                     break;
                 case "+":
                     historyQuickView.Text += screen.Text + " = ";
                     screen.Text = (num1 + float.Parse(screen.Text)).ToString();
-                    history += historyQuickView + " = " + screen.Text;
+                    history += historyQuickView.Text + screen.Text + '\n';
                     num1 = 0.0f;
                     break;
                 case "-":
                     historyQuickView.Text += screen.Text + " = ";
                     screen.Text = (num1 - float.Parse(screen.Text)).ToString();
-                    history += historyQuickView + " = " + screen.Text;
+                    history += historyQuickView.Text + screen.Text + '\n';
                     num1 = 0.0f;
                     break;
                 default:
@@ -336,7 +346,23 @@ namespace Calculator
 
         private void showHistory(object sender, RoutedEventArgs e)
         {
-            
+            if (historyCanvas.IsVisible)
+            {
+                calcWindow.Background = Brushes.AliceBlue;
+                screen.Background = Brushes.AliceBlue;
+                historyBtn.Background = Brushes.AliceBlue;
+                menu.Background = Brushes.AliceBlue;
+                historyCanvas.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                historyTextBlock.Text = history;
+                calcWindow.Background = Brushes.Gray;
+                screen.Background = Brushes.Gray;
+                historyBtn.Background = Brushes.Gray;
+                menu.Background = Brushes.Gray;
+                historyCanvas.Visibility = Visibility.Visible;
+            }
         }
     }
 }
