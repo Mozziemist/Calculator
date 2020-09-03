@@ -15,7 +15,7 @@
                 <MenuItem Background="LightBlue" Header="Programmer"/>
             </MenuItem>
         </Menu>
-        <Button x:Name="historyBtn" Content="⟲" Click="showHistory" BorderThickness="0" Background="AliceBlue" TextBlock.FontSize="25" HorizontalAlignment="Left" Margin="346,10,0,0" VerticalAlignment="Top" Width="36" Height="36"/>
+        <Button x:Name="historyBtn" Content="⟲" Click="ShowHistory" BorderThickness="0" Background="AliceBlue" TextBlock.FontSize="25" HorizontalAlignment="Left" Margin="346,10,0,0" VerticalAlignment="Top" Width="36" Height="36"/>
         <TextBlock x:Name="screen" Background="AliceBlue" FontWeight="DemiBold"  Margin="0,94,0,0" Text="0" VerticalAlignment="Top" TextAlignment="Right" FontSize="48" TextWrapping="Wrap" RenderTransformOrigin="0.503,0.607" Height="70"/>
         <TextBlock HorizontalAlignment="Left" Margin="51,14,0,0" TextWrapping="Wrap" Text="Standard" VerticalAlignment="Top" Height="36" Width="90" FontSize="20" FontWeight="Bold" TextAlignment="Center"/>
         <TextBlock x:Name="historyQuickView" HorizontalAlignment="Left" Margin="10,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="39" Width="372" TextAlignment="Right" FontSize="20"/>
@@ -68,8 +68,9 @@
 
             <Canvas x:Name="historyCanvas" Background="LightGray" Grid.ColumnSpan="4" Grid.RowSpan="6" Visibility="Hidden" >
                 <TextBlock x:Name="historyTextBlock" Grid.ColumnSpan="4" Grid.RowSpan="6" Background="LightGray" TextAlignment="Right" FontSize="25" Height="338" Width="363" />
+                <Button Content="Delete History" Click="DeleteHistory" Canvas.Top="318" Background="IndianRed" />
             </Canvas>
-            
+
 
 
         </Grid>

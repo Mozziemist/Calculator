@@ -21,7 +21,8 @@ namespace Calculator
     public partial class MainWindow : Window
     {
         bool isOpLastInput = false; // is operation last input
-        float num1 = 0.0f; // used as placeholder when user is using multiple operations before equaling
+        bool prePrinted = false; //cases where operation self prints to quickView (ex: root)
+        double num1 = 0.0d; // used as placeholder when user is using multiple operations before equaling
         String operand = "", history = "";
 
         public MainWindow()
@@ -176,14 +177,16 @@ namespace Calculator
 
         private void Percent(object sender, RoutedEventArgs e)
         {
-            screen.Text = (float.Parse(screen.Text) / 100).ToString();
+            screen.Text = (double.Parse(screen.Text) / 100).ToString();
+            historyQuickView.Text += screen.Text;
+            prePrinted = true;
         }
 
         private void OneOver(object sender, RoutedEventArgs e)
         {
-            historyQuickView.Text += "1/(" + screen.Text + ") = ";
-            screen.Text = (1 / float.Parse(screen.Text)).ToString();
-            history += historyQuickView + " = " + screen.Text;
+            historyQuickView.Text += "1/(" + screen.Text + ")";
+            prePrinted = true;
+            screen.Text = (1 / double.Parse(screen.Text)).ToString();
         }
 
         private void CE(object sender, RoutedEventArgs e)
@@ -193,9 +196,9 @@ namespace Calculator
 
         private void Square(object sender, RoutedEventArgs e)
         {
-            historyQuickView.Text += screen.Text + "² = ";
-            screen.Text = Math.Pow(float.Parse(screen.Text), 2).ToString();
-            history += historyQuickView + " = " + screen.Text;
+            historyQuickView.Text += screen.Text + "²";
+            prePrinted = true;
+            screen.Text = Math.Pow(double.Parse(screen.Text), 2).ToString();
         }
 
         private void C(object sender, RoutedEventArgs e)
@@ -203,16 +206,15 @@ namespace Calculator
             num1 = 0.0f;
             screen.Text = "0";
             historyQuickView.Text = "";
+            isOpLastInput = false;
+            operand = "";
         }
 
         private void Root(object sender, RoutedEventArgs e)
         {
             historyQuickView.Text += "√(" + screen.Text + ")";
-            if (num1 == 0.0f)
-            {
-                historyQuickView.Text += "=";
-            }
-            screen.Text = Math.Sqrt(float.Parse(screen.Text)).ToString();
+            prePrinted = true;
+            screen.Text = Math.Sqrt(double.Parse(screen.Text)).ToString();
         }
 
         private void Delete(object sender, RoutedEventArgs e)
@@ -229,122 +231,140 @@ namespace Calculator
 
         private void Divide(object sender, RoutedEventArgs e)
         {
-            operand = "/";
-            isOpLastInput = true;
-            if (num1 == 0.0f)
+            if (historyQuickView.Text.Contains("="))
             {
-                //condition where screen number is first input
-                historyQuickView.Text = screen.Text + " ÷ ";
-                num1 = float.Parse(screen.Text);
+                historyQuickView.Text = "";
+            }
+            if (!prePrinted)
+            {
+                historyQuickView.Text += screen.Text + " ÷ ";
             }
             else
             {
-                //condition where user presses multiple operations before pressing equal
-                historyQuickView.Text += screen.Text + " ÷ ";
-                num1 = num1 / float.Parse(screen.Text);
-                screen.Text = num1.ToString();
+                historyQuickView.Text += " ÷ ";
+                prePrinted = false;
             }
+
+            //Solve frontside of problem
+            if (num1 != 0.0d && operand != "")
+            {
+                //print ans to scrn
+                screen.Text = Solve(num1, double.Parse(screen.Text), operand).ToString();
+            }
+
+            //Setup backside of problem
+            num1 = double.Parse(screen.Text);
+            operand = "/";
+            isOpLastInput = true;
         }
 
         private void Multiply(object sender, RoutedEventArgs e)
         {
-            
-            operand = "x";
-            isOpLastInput = true;
-            if (num1 == 0.0f)
+            if (historyQuickView.Text.Contains("="))
             {
-                //condition where screen number is first input
-                historyQuickView.Text = screen.Text + " x ";
-                num1 = float.Parse(screen.Text);
+                historyQuickView.Text = "";
+            }
+            if (!prePrinted)
+            {
+                historyQuickView.Text += screen.Text + " x ";
             }
             else
             {
-                //condition where user presses multiple operations before pressing equal
-                historyQuickView.Text += screen.Text + " x ";
-                num1 = num1 * float.Parse(screen.Text);
-                screen.Text = num1.ToString();
+                historyQuickView.Text += " x ";
+                prePrinted = false;
             }
+
+            //Solve frontside of problem
+            if (num1 != 0.0d && operand != "")
+            {
+                //print ans to scrn
+                screen.Text = Solve(num1, double.Parse(screen.Text), operand).ToString();
+            }
+
+            //Setup backside of problem
+            num1 = double.Parse(screen.Text);
+            operand = "x";
+            isOpLastInput = true;
         }
 
         private void Subtract(object sender, RoutedEventArgs e)
         {
-            operand = "-";
-            isOpLastInput = true;
-            if (num1 == 0.0f)
+            if (historyQuickView.Text.Contains("="))
             {
-                //condition where screen number is first input
-                historyQuickView.Text = screen.Text + " - ";
-                num1 = float.Parse(screen.Text);
+                historyQuickView.Text = "";
+            }
+            if (!prePrinted)
+            {
+                historyQuickView.Text += screen.Text + " - ";
             }
             else
             {
-                //condition where user presses multiple operations before pressing equal
-                historyQuickView.Text += screen.Text + " - ";
-                num1 = num1 - float.Parse(screen.Text);
-                screen.Text = num1.ToString();
+                historyQuickView.Text += " - ";
+                prePrinted = false;
             }
+
+            //Solve frontside of problem
+            if (num1 != 0.0d && operand != "")
+            {
+                //print ans to scrn
+                screen.Text = Solve(num1, double.Parse(screen.Text), operand).ToString();
+            }
+
+            //Setup backside of problem
+            num1 = double.Parse(screen.Text);
+            operand = "-";
+            isOpLastInput = true;
         }
 
         private void Add(object sender, RoutedEventArgs e)
         {
-            operand = "+";
-            isOpLastInput = true;
-            if (num1 == 0.0f)
+            if (historyQuickView.Text.Contains("="))
             {
-                //condition where screen number is first input
-                historyQuickView.Text = screen.Text + " + ";
-                num1 = float.Parse(screen.Text);
+                historyQuickView.Text = "";
+            }
+            if (!prePrinted)
+            {
+                historyQuickView.Text += screen.Text + " + ";
             }
             else
             {
-                //condition where user presses multiple operations before pressing equal
-                historyQuickView.Text += screen.Text + " + ";
-                num1 = num1 + float.Parse(screen.Text);
-                screen.Text = num1.ToString();
+                historyQuickView.Text += " + ";
+                prePrinted = false;
             }
+
+            //Solve frontside of problem
+            if (num1 != 0.0d && operand != "")
+            {
+                //print ans to scrn
+                screen.Text = Solve(num1, double.Parse(screen.Text), operand).ToString();
+            }
+
+            //Setup backside of problem
+            num1 = double.Parse(screen.Text);
+            operand = "+";
+            isOpLastInput = true;
         }
 
         private void Equals(object sender, RoutedEventArgs e)
         {
-            switch (operand)
+            if (!prePrinted)
             {
-                case "x":
-                    if (historyQuickView.Text[historyQuickView.Text.Length - 1] != ')')
-                    {
-                        historyQuickView.Text += screen.Text + " = ";
-                    }
-                    else
-                        historyQuickView.Text += "=";
-
-                    screen.Text = (num1 * float.Parse(screen.Text)).ToString();
-                    history += historyQuickView.Text + screen.Text + '\n';
-                    num1 = 0.0f;
-                    break;
-                case "/":
-                    historyQuickView.Text += screen.Text + " = ";
-                    screen.Text = (num1 / float.Parse(screen.Text)).ToString();
-                    history += historyQuickView.Text + screen.Text + '\n';
-                    num1 = 0.0f;
-                    break;
-                case "+":
-                    historyQuickView.Text += screen.Text + " = ";
-                    screen.Text = (num1 + float.Parse(screen.Text)).ToString();
-                    history += historyQuickView.Text + screen.Text + '\n';
-                    num1 = 0.0f;
-                    break;
-                case "-":
-                    historyQuickView.Text += screen.Text + " = ";
-                    screen.Text = (num1 - float.Parse(screen.Text)).ToString();
-                    history += historyQuickView.Text + screen.Text + '\n';
-                    num1 = 0.0f;
-                    break;
-                default:
-                    break;
+                historyQuickView.Text += screen.Text + " = ";
             }
+            else
+            {
+                historyQuickView.Text += " = ";
+            }
+
+            screen.Text = Solve(num1, double.Parse(screen.Text), operand).ToString();
+            history += historyQuickView.Text + screen.Text + '\n';
+            num1 = double.Parse(screen.Text);
+            operand = "";
+            prePrinted = false;
         }
 
 
-        private void showHistory(object sender, RoutedEventArgs e)
+        private void ShowHistory(object sender, RoutedEventArgs e)
         {
             if (historyCanvas.IsVisible)
             {
@@ -363,6 +383,37 @@ namespace Calculator
                 menu.Background = Brushes.Gray;
                 historyCanvas.Visibility = Visibility.Visible;
             }
+        }
+
+        private void DeleteHistory(object sender, RoutedEventArgs e)
+        {
+            history = "";
+            historyTextBlock.Text = "";
+        }
+
+        private double Solve(double num1, double num2, string op)
+        {
+            double answer = 0.0d;
+
+            switch (op)
+            {
+                case "x":
+                    answer = num1 * num2;
+                    break;
+                case "/":
+                    answer = num1 / num2;
+                    break;
+                case "+":
+                    answer = num1 + num2;
+                    break;
+                case "-":
+                    answer = num1 - num2;
+                    break;
+                default:
+                    break;
+            }
+
+            return answer;
         }
     }
 }
