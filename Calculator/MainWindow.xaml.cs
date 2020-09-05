@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms;
 
 namespace Calculator
 {
@@ -22,6 +23,7 @@ namespace Calculator
     {
         bool isOpLastInput = false; // is operation last input
         bool prePrinted = false; //cases where operation self prints to quickView (ex: root)
+        bool windowSizeChanged = false;
         double num1 = 0.0d; // used as placeholder when user is using multiple operations before equaling
         String operand = "", history = "";
 
@@ -184,6 +186,10 @@ namespace Calculator
 
         private void OneOver(object sender, RoutedEventArgs e)
         {
+            if (prePrinted)
+            {
+                historyQuickView.Text = "";
+            }
             historyQuickView.Text += "1/(" + screen.Text + ")";
             prePrinted = true;
             screen.Text = (1 / double.Parse(screen.Text)).ToString();
@@ -196,6 +202,10 @@ namespace Calculator
 
         private void Square(object sender, RoutedEventArgs e)
         {
+            if (prePrinted)
+            {
+                historyQuickView.Text = "";
+            }
             historyQuickView.Text += screen.Text + "²";
             prePrinted = true;
             screen.Text = Math.Pow(double.Parse(screen.Text), 2).ToString();
@@ -208,10 +218,15 @@ namespace Calculator
             historyQuickView.Text = "";
             isOpLastInput = false;
             operand = "";
+            prePrinted = false;
         }
 
         private void Root(object sender, RoutedEventArgs e)
         {
+            if (prePrinted)
+            {
+                historyQuickView.Text = "";
+            }
             historyQuickView.Text += "√(" + screen.Text + ")";
             prePrinted = true;
             screen.Text = Math.Sqrt(double.Parse(screen.Text)).ToString();
@@ -358,6 +373,7 @@ namespace Calculator
 
             screen.Text = Solve(num1, double.Parse(screen.Text), operand).ToString();
             history += historyQuickView.Text + screen.Text + '\n';
+            historyColumnTextBlock.Text += historyQuickView.Text + screen.Text + '\n';
             num1 = double.Parse(screen.Text);
             operand = "";
             prePrinted = false;
@@ -366,22 +382,24 @@ namespace Calculator
 
         private void ShowHistory(object sender, RoutedEventArgs e)
         {
-            if (historyCanvas.IsVisible)
+            if (historyGrid.IsVisible)
             {
+                screenCanvas.Visibility = Visibility.Hidden;
                 calcWindow.Background = Brushes.AliceBlue;
                 screen.Background = Brushes.AliceBlue;
                 historyBtn.Background = Brushes.AliceBlue;
                 menu.Background = Brushes.AliceBlue;
-                historyCanvas.Visibility = Visibility.Hidden;
+                historyGrid.Visibility = Visibility.Hidden;
             }
             else
             {
+                screenCanvas.Visibility = Visibility.Visible;
                 historyTextBlock.Text = history;
                 calcWindow.Background = Brushes.Gray;
                 screen.Background = Brushes.Gray;
                 historyBtn.Background = Brushes.Gray;
                 menu.Background = Brushes.Gray;
-                historyCanvas.Visibility = Visibility.Visible;
+                historyGrid.Visibility = Visibility.Visible;
             }
         }
 
@@ -389,6 +407,40 @@ namespace Calculator
         {
             history = "";
             historyTextBlock.Text = "";
+            historyColumnTextBlock.Text = "";
+        }
+
+        //User decides to press outside history bounds to leave history instead of
+        //pressing history button again
+        private void HistoryClickOff(object sender, MouseButtonEventArgs e)
+        {
+            screenCanvas.Visibility = Visibility.Hidden;
+            historyGrid.Visibility = Visibility.Hidden;
+            calcWindow.Background = Brushes.AliceBlue;
+            screen.Background = Brushes.AliceBlue;
+            historyBtn.Background = Brushes.AliceBlue;
+            menu.Background = Brushes.AliceBlue;
+        }
+
+        private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!historyGrid.IsVisible)
+            {
+                if (this.Width > 600 && !windowSizeChanged)
+                {
+                    historyBtn.Visibility = Visibility.Hidden;
+                    historyColumnTextBlock.Visibility = Visibility.Visible;
+                    windowSizeChanged = true;
+                }
+
+                if (this.Width <= 600 && windowSizeChanged)
+                {
+                    historyColumnTextBlock.Visibility = Visibility.Collapsed;
+                    historyBtn.Visibility = Visibility.Visible;
+                    windowSizeChanged = false;
+                }
+            }
+            
         }
 
         private double Solve(double num1, double num2, string op)
@@ -415,5 +467,8 @@ namespace Calculator
 
             return answer;
         }
+
+
+
     }
 }
